@@ -1,5 +1,6 @@
 package com.metricsApi.data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -14,6 +15,8 @@ import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -21,14 +24,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode
+
 @Entity
 @Table(name = "metric_value")
-public class MetricValues {
+public class MetricValues implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -44,9 +43,54 @@ public class MetricValues {
 	@Column
 	private Double value;
 	
-	@ManyToOne(fetch = FetchType.EAGER ,optional=true)
-    @JoinColumn(name = "metric_id")
-    private Metrics metric;
+
+
+	public MetricValues(Long id, String name, Date createdDate, Double value, Metrics metric) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.createdDate = createdDate;
+		this.value = value;
+
+	}
+
+	public MetricValues() {
+		super();
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Double getValue() {
+		return value;
+	}
+
+	public void setValue(Double value) {
+		this.value = value;
+	}
+
+
 	
 	
 	
