@@ -24,6 +24,12 @@ public class MetricService {
 		repo.save(metric);
 		
 	}
+
+	public Metrics findByName(String name) {
+		
+		return repo.findByName(name);
+		
+	}
 	
 	
 

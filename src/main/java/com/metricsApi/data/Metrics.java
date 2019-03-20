@@ -1,6 +1,5 @@
 package com.metricsApi.data;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,18 +17,10 @@ import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 
 @Entity
 @Table(name = "metric")
-public class Metrics implements Serializable{
+public class Metrics {
 
 	
 	
@@ -92,9 +83,6 @@ public class Metrics implements Serializable{
 
 	public void setValues(List<MetricValues> values) {
 		this.values = values;
-	}
-	
-	
-	
+	}	
 
 }

@@ -8,4 +8,6 @@ import com.metricsApi.data.Metrics;
 @Repository
 public interface MetricRepository extends JpaRepository<Metrics, Long> {
 
+	Metrics findByName(String name);
+
 }
