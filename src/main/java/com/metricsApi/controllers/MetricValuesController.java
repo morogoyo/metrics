@@ -25,8 +25,14 @@ public class MetricValuesController {
 	public void insertMetric(@RequestBody MetricValues mv) {
 
 		Metrics metric = metricService.findByName(mv.getName());
-		mv.setName(metric.getName());
-		metricValueService.insertMetricValue(mv);
+		System.out.println(metric);
+		if (metric != null) {
+			mv.setName(metric.getName());
+			metricValueService.insertMetricValue(mv);
+		}else {
+			System.out.println("Metric was not found, please create metric and try again ");
+		}
+		
 		
 		
 		
