@@ -3,14 +3,14 @@ package com.metricsApi.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import com.metricsApi.data.MetricValues;
 import com.metricsApi.data.Metrics;
 import com.metricsApi.repository.MetricRepository;
 import com.metricsApi.repository.MetricValuesRepository;
 
-@Repository
+@Service
 public class MetricValueService {
 
 	@Autowired
@@ -38,30 +38,32 @@ public class MetricValueService {
 
 	}
 
-	public Double metricMinimumValue(String metricName) {
-		
-		List <MetricValues> minVal = findByMetric(metricName);
-		
-		
-		
-		minVal.stream().mapToDouble(m -> m).max();
-		
-		return null;
+	public MetricValues metricMinimumValue(String metricName) {
+
+		List<MetricValues> minVal = findByMetric(metricName);
+
+		MetricValues min = minVal.stream().min((d1, d2) -> Double.compare(d1.getValue(), d2.getValue())).get();
+
+		return min;
 
 	}
 
-	public Double metricMaxValue() {
-		
-		
-		return null;
+	public MetricValues metricMaxValue(String metricName) {
+
+		List<MetricValues> maxVal = findByMetric(metricName);
+
+		MetricValues max = maxVal.stream().max((d1, d2) -> Double.compare(d1.getValue(), d2.getValue())).get();
+
+		return max;
 
 	}
-	
-	public Double metricMedianValue() {
+
+	public MetricValues metricMedianValue(String metricName) {
 		
-		
+		List<MetricValues> maxVal = findByMetric(metricName); 
+
 		return null;
-		
+
 	}
 
 }
