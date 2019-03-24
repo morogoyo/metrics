@@ -1,6 +1,7 @@
 package com.metricsApi.service;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,36 +32,78 @@ public class MetricValueService {
 
 	public List<MetricValues> findByMetric(String metricName) {
 
-		Metrics metricObj = metricRepo.findByName(metricName);
-		List<MetricValues> metricsList = metricValueRepo.findByMetric_Id(metricObj.getId());
+		List<MetricValues> metricsList = null;
+		try {
+			Metrics metricObj = metricRepo.findByName(metricName);
+			metricsList = metricValueRepo.findByMetric_Id(metricObj.getId());
 
+		} catch (NullPointerException e) {
+			System.out.println("Metric was not found, please create metric and try again ");
+			e.printStackTrace();
+		}
 		return metricsList;
+	}
+
+	public Double metricMinimumValue(String metricName) {
+
+		MetricValues min = null;
+
+		try {
+			List<MetricValues> minVal = findByMetric(metricName);
+
+			min = minVal.stream().min((d1, d2) -> Double.compare(d1.getValue(), d2.getValue())).get();
+		} catch (NullPointerException e) {
+			System.out.println("Metric was not found, please create metric and try again ");
+			e.printStackTrace();
+		}
+
+		return min.getValue();
 
 	}
 
-	public MetricValues metricMinimumValue(String metricName) {
+	public Double metricMaxValue(String metricName) {
+		MetricValues max = null;
 
-		List<MetricValues> minVal = findByMetric(metricName);
+		try {
+			List<MetricValues> maxVal = findByMetric(metricName);
 
-		MetricValues min = minVal.stream().min((d1, d2) -> Double.compare(d1.getValue(), d2.getValue())).get();
+			max = maxVal.stream().max((d1, d2) -> Double.compare(d1.getValue(), d2.getValue())).get();
+		} catch (NullPointerException e) {
+			System.out.println("Metric was not found, please create metric and try again ");
+			e.printStackTrace();
+		}
 
-		return min;
-
-	}
-
-	public MetricValues metricMaxValue(String metricName) {
-
-		List<MetricValues> maxVal = findByMetric(metricName);
-
-		MetricValues max = maxVal.stream().max((d1, d2) -> Double.compare(d1.getValue(), d2.getValue())).get();
-
-		return max;
+		return max.getValue();
 
 	}
 
-	public MetricValues metricMedianValue(String metricName) {
-		
-		List<MetricValues> maxVal = findByMetric(metricName); 
+	public Double metricMedianValue(String metricName) {
+		Double median = null;
+		try {
+			List<MetricValues> medianVal = findByMetric(metricName);
+			long size = medianVal.size();
+			
+//			 median = medianVal.stream().sorted().limit(2 - size % 2).average().orElse(Double.NaN);
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return median;
+
+	}
+
+	public MetricValues metricMeanValue(String metricName) {
+
+		try {
+			List<MetricValues> meanVal = findByMetric(metricName);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return null;
 

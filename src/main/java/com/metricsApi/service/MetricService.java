@@ -47,7 +47,7 @@ public class MetricService {
 		
 		try {
 			Metrics metric  = findByName(metricName);
-//		toss up wether to delete by id or entity
+//		toss up whether to delete by id or entity
 			Long id = metric.getId();
 			repo.deleteById(id);
 		} catch (Exception e) {
