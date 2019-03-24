@@ -1,6 +1,8 @@
 package com.metricsApi.service;
 
 import java.util.List;
+import java.util.OptionalDouble;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,38 +33,103 @@ public class MetricValueService {
 
 	public List<MetricValues> findByMetric(String metricName) {
 
-		Metrics metricObj = metricRepo.findByName(metricName);
-		List<MetricValues> metricsList = metricValueRepo.findByMetric_Id(metricObj.getId());
+		List<MetricValues> metricsList = null;
+		try {
+			Metrics metricObj = metricRepo.findByName(metricName);
+			metricsList = metricValueRepo.findByMetric_Id(metricObj.getId());
 
+		} catch (NullPointerException e) {
+			System.out.println("Metric was not found, please create metric and try again ");
+			e.printStackTrace();
+		}
 		return metricsList;
+	}
+
+	public Double metricMinimumValue(String metricName) {
+
+		MetricValues min = null;
+
+		try {
+			List<MetricValues> minVal = findByMetric(metricName);
+
+			min = minVal.stream().min((d1, d2) -> Double.compare(d1.getValue(), d2.getValue())).get();
+		} catch (NullPointerException e) {
+			System.out.println("Metric was not found, please create metric and try again ");
+			e.printStackTrace();
+		}
+
+		return min.getValue();
 
 	}
 
-	public MetricValues metricMinimumValue(String metricName) {
+	public Double metricMaxValue(String metricName) {
+		MetricValues max = null;
 
-		List<MetricValues> minVal = findByMetric(metricName);
+		try {
+			List<MetricValues> maxVal = findByMetric(metricName);
 
-		MetricValues min = minVal.stream().min((d1, d2) -> Double.compare(d1.getValue(), d2.getValue())).get();
+			max = maxVal.stream().max((d1, d2) -> Double.compare(d1.getValue(), d2.getValue())).get();
+		} catch (NullPointerException e) {
+			System.out.println("Metric was not found, please create metric and try again ");
+			e.printStackTrace();
+		}
 
-		return min;
-
-	}
-
-	public MetricValues metricMaxValue(String metricName) {
-
-		List<MetricValues> maxVal = findByMetric(metricName);
-
-		MetricValues max = maxVal.stream().max((d1, d2) -> Double.compare(d1.getValue(), d2.getValue())).get();
-
-		return max;
+		return max.getValue();
 
 	}
 
-	public MetricValues metricMedianValue(String metricName) {
-		
-		List<MetricValues> maxVal = findByMetric(metricName); 
+	public Double metricMedianValue(String metricName) {
+		Double median = null;
 
-		return null;
+		List<MetricValues> medianVal = null;
+		try {
+			medianVal = findByMetric(metricName);
+			System.out.println(medianVal);
+		} catch (Exception e) {
+			System.out.println("Metric was not found, please create metric and try again ");
+			e.printStackTrace();
+		}
+
+//		size of list
+		int size = medianVal.size();
+
+		if (size <= 0) {
+			return 0.0;
+		}
+
+//		Middle of list count
+		int middle = ((size - 1) / 2);
+
+		if (size == 1) {
+			return medianVal.get(0).getValue();
+		} else if (size <= 2) {
+			return (medianVal.get(0).getValue() + medianVal.get(1).getValue()) / 2;
+		} else if (size % 2 == 1) {
+			median = medianVal.get(middle).getValue();
+		} else {
+
+			median = (medianVal.get(middle).getValue() + medianVal.get(middle + 1).getValue()) / 2;
+		}
+
+		return median;
+
+	}
+
+	public OptionalDouble metricMeanValue(String metricName) {
+		OptionalDouble mean = null;
+		try {
+			List<MetricValues> meanVal = findByMetric(metricName);
+
+			List<Double> meanList = meanVal.stream().map(mv -> mv.getValue()).collect(Collectors.toList());
+
+			mean = (meanList.stream().mapToDouble(mv -> mv)).average();
+
+		} catch (Exception e) {
+			System.out.println("Metric was not found, please create metric and try again ");
+			e.printStackTrace();
+		}
+
+		return mean;
 
 	}
 

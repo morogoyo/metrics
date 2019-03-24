@@ -1,6 +1,7 @@
 package com.metricsApi.controllers;
 
 import java.util.List;
+import java.util.OptionalDouble;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,7 +39,7 @@ public class MetricValuesController {
 //			find metric to correlate
 			Metrics metric = metricService.findByName(mv.getName());
 
-//			create object to be saved
+//			edit object to be saved
 			mv.setName(metric.getName());
 			mv.getMetric().setName(metric.getName());
 			mv.getMetric().setId(metric.getId());
@@ -47,22 +48,29 @@ public class MetricValuesController {
 
 		} catch (Exception e) {
 
-			System.out.println("Metric was not found, please create metric and try again ");
 			e.printStackTrace();
 		}
 
 	}
-	
-	@GetMapping(value= "min/{metricName}")
-	public MetricValues CalculateMetricMin(@RequestParam String metricName) {
+
+	@GetMapping(value = "min/{metricName}")
+	public Double CalculateMetricMin(@RequestParam String metricName) {
 		return metricValueService.metricMinimumValue(metricName);
 	}
-	
-	@GetMapping(value= "max/{metricName}")
-	public MetricValues CalculateMetricMax(@RequestParam String metricName) {
+
+	@GetMapping(value = "max/{metricName}")
+	public Double CalculateMetricMax(@RequestParam String metricName) {
 		return metricValueService.metricMaxValue(metricName);
 	}
-	
-	
+
+	@GetMapping(value = "median/{metricName}")
+	public Double CalculateMetricMedian(@RequestParam String metricName) {
+		return metricValueService.metricMedianValue(metricName);
+	}
+
+	@GetMapping(value = "mean/{metricName}")
+	public OptionalDouble CalculateMetricMean(@RequestParam String metricName) {
+		return metricValueService.metricMeanValue(metricName);
+	}
 
 }

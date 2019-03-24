@@ -11,8 +11,7 @@ import com.metricsApi.data.MetricValues;
 @Repository
 public interface MetricValuesRepository extends JpaRepository<MetricValues, Long> {
 
-	@Query(value = "SELECT * FROM metric_value where metric_id = ?1",
-			nativeQuery = true)
-	List <MetricValues> findByMetric_Id(Long id);
+	@Query(value = "SELECT * FROM metric_value where metric_id = ?1", nativeQuery = true)
+	List<MetricValues> findByMetric_Id(Long id);
 
 }

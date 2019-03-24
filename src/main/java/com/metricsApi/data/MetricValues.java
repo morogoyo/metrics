@@ -2,7 +2,6 @@ package com.metricsApi.data;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +18,7 @@ import org.springframework.data.annotation.CreatedDate;
 public class MetricValues {
 
 	@Id
-	
+
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
@@ -32,17 +31,17 @@ public class MetricValues {
 
 	@Column
 	private Double value;
-	
+
 	@ManyToOne
-	@JoinColumn(name="metric_id",nullable=false)
+	@JoinColumn(name = "metric_id", nullable = false)
 	private Metrics metric;
 
 	public MetricValues() {
-		
+
 	}
 
 	public MetricValues(Long id, String name, Date createdDate, Double value, Metrics metric) {
-		super();
+
 		this.id = id;
 		this.name = name;
 		this.createdDate = createdDate;
