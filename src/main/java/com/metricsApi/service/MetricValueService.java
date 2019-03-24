@@ -79,19 +79,29 @@ public class MetricValueService {
 
 	public Double metricMedianValue(String metricName) {
 		Double median = null;
-		try {
-			List<MetricValues> medianVal = findByMetric(metricName);
+		
+			List<MetricValues> medianVal = null;
+			try {
+				medianVal = findByMetric(metricName);
+			} catch (Exception e) {
+				System.out.println("Metric was not found, please create metric and try again ");
+				e.printStackTrace();
+			}
+			
 			long size = medianVal.size();
 			
-//			 median = medianVal.stream().sorted().limit(2 - size % 2).average().orElse(Double.NaN);
 			
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			if(size%2 == 1) {
+//				median = 
+				
+			}else {
+				
+				median = ( (double)(size+1)/2 + (double)(size)/2 ) / 2;
+				}			
 
-		return median;
+//			 median = medianVal.stream().sorted().limit(2 - size % 2).average().orElse(Double.NaN);
+
+			return median;
 
 	}
 
@@ -101,7 +111,7 @@ public class MetricValueService {
 			List<MetricValues> meanVal = findByMetric(metricName);
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			System.out.println("Metric was not found, please create metric and try again ");
 			e.printStackTrace();
 		}
 
