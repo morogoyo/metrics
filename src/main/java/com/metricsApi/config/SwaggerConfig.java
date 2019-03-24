@@ -15,8 +15,6 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-
-
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
@@ -25,20 +23,13 @@ public class SwaggerConfig {
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
 				.apis(RequestHandlerSelectors.basePackage("com.metricsApi.controllers"))
-				.paths(PathSelectors.regex("/api/v1.*"))
-				.build()
-				.apiInfo(metricsData()); 
-		
-	}	
+				.paths(PathSelectors.regex("/api/v1.*")).build().apiInfo(metricsData());
+
+	}
 
 	private ApiInfo metricsData() {
-        return new ApiInfoBuilder()
-                .title("Spring Boot REST API")
-                .description("\"Metrics Api\"")
-                .version("1.0.0")               
-                .build();
-    }
-	
+		return new ApiInfoBuilder().title("Spring Boot REST API").description("\"Metrics Api\"").version("1.0.0")
+				.build();
+	}
 
-	
 }

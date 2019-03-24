@@ -1,7 +1,8 @@
 package com.metricsApi.service;
 
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.OptionalDouble;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -79,43 +80,56 @@ public class MetricValueService {
 
 	public Double metricMedianValue(String metricName) {
 		Double median = null;
-		
-			List<MetricValues> medianVal = null;
-			try {
-				medianVal = findByMetric(metricName);
-			} catch (Exception e) {
-				System.out.println("Metric was not found, please create metric and try again ");
-				e.printStackTrace();
-			}
-			
-			long size = medianVal.size();
-			
-			
-			if(size%2 == 1) {
-//				median = 
-				
-			}else {
-				
-				median = ( (double)(size+1)/2 + (double)(size)/2 ) / 2;
-				}			
 
-//			 median = medianVal.stream().sorted().limit(2 - size % 2).average().orElse(Double.NaN);
+		List<MetricValues> medianVal = null;
+		try {
+			medianVal = findByMetric(metricName);
+			System.out.println(medianVal);
+		} catch (Exception e) {
+			System.out.println("Metric was not found, please create metric and try again ");
+			e.printStackTrace();
+		}
 
-			return median;
+//		size of list
+		int size = medianVal.size();
+
+		if (size <= 0) {
+			return 0.0;
+		}
+
+//		Middle of list count
+		int middle = ((size - 1) / 2);
+
+		if (size == 1) {
+			return medianVal.get(0).getValue();
+		} else if (size <= 2) {
+			return (medianVal.get(0).getValue() + medianVal.get(1).getValue()) / 2;
+		} else if (size % 2 == 1) {
+			median = medianVal.get(middle).getValue();
+		} else {
+
+			median = (medianVal.get(middle).getValue() + medianVal.get(middle + 1).getValue()) / 2;
+		}
+
+		return median;
 
 	}
 
-	public MetricValues metricMeanValue(String metricName) {
-
+	public OptionalDouble metricMeanValue(String metricName) {
+		OptionalDouble mean = null;
 		try {
 			List<MetricValues> meanVal = findByMetric(metricName);
+
+			List<Double> meanList = meanVal.stream().map(mv -> mv.getValue()).collect(Collectors.toList());
+
+			mean = (meanList.stream().mapToDouble(mv -> mv)).average();
 
 		} catch (Exception e) {
 			System.out.println("Metric was not found, please create metric and try again ");
 			e.printStackTrace();
 		}
 
-		return null;
+		return mean;
 
 	}
 

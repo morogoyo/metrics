@@ -1,14 +1,17 @@
 package com.metricsApi.service;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -16,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.google.gson.Gson;
 import com.metricsApi.data.MetricValues;
 import com.metricsApi.repository.MetricValuesRepository;
 
@@ -24,9 +28,35 @@ import io.micrometer.core.instrument.Measurement;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class MetricValueServiceTest {
+	
+	
 
 	@Autowired
 	private MetricValueService mvService;
+	
+	@MockBean
+	private MetricValuesRepository mvRepo;
+	
+	@MockBean
+	private MetricValues metricValues;
+	
+	@Before
+	public void initTest() {
+		List<Double> metricsValuesOdd = new ArrayList<>();		
+		metricsValuesOdd.add(55.56);
+		metricsValuesOdd.add(81.46);
+		metricsValuesOdd.add(56.89);
+		metricsValuesOdd.add(25.35);
+		metricsValuesOdd.add(10.75);
+		
+		List<Double> metricsValuesEven = new ArrayList<>();		
+		metricsValuesEven.add(55.56);
+		metricsValuesEven.add(81.46);
+		metricsValuesEven.add(56.89);
+		metricsValuesEven.add(25.35);
+		
+	}
+	
 
 	@Test
 	@Ignore
@@ -45,50 +75,12 @@ public class MetricValueServiceTest {
 	@Test
 	public void medianTest() {
 
-//		List<MetricValues> medianVal = mvService.findByMetric("speed");
-
-//		int medianValSize = medianVal.size();
-
-		Double[] arr = new Double[] { 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0 };
-		List<Double> medianVal = Arrays.asList(arr);
-		int medianValSize = medianVal.size();
+		String speed = "speed";
 		
-		int middle = ((medianValSize - 1) / 2);
-		// using these VVVVVVVVVVVVVVVVV
-		System.out.println(medianVal.get(middle));
-		System.out.println(medianVal.get(middle +1));
-		System.out.println(middle);
-		System.out.println(middle +1);
-		
-		double posFromLast = medianVal.get(((medianValSize-1) - ((medianValSize - 1) / 2)));
+		Mockito.when(mvRepo.findByMetric_Id(1l)).thenReturn(metricsValuesOdd);
 
-		System.out.println(medianVal.get(((medianValSize-1) - ((medianValSize - 1) / 2))));
-
-		System.out.println((medianVal.get((medianValSize - 1) / 2)));
-
-		double median = ((double) (medianValSize + 1) / 2 + (double) (medianValSize) / 2) / 2;
-
-//		medianVal.get(index)
-
-		System.out.println(median);
-
-//		for(MetricValues v : medianVal) {
-//			
-//			if(medianValSize%2 == 1) {
-//				
-		System.out.println((medianValSize - 1) / 2);
-//			}
-//			System.out.println(v.getValue());
-//		}
-
-		// List<Double> var =
-		// medianVal.stream().map(MetricValues::getValue).sorted().skip(medianVal.size()-1)limit(2-medianVal.size()%2).collect(Collectors.toList());
-
-//		for(Double v : var) {
-//			
-//			System.out.println(v);
-//		}
-//		
 	}
+
+	
 
 }

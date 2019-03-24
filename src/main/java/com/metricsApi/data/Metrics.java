@@ -19,38 +19,35 @@ import org.springframework.data.annotation.CreatedDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
 @Entity
 @Table(name = "metric")
-public class Metrics {	
-	
+public class Metrics {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-
 	@Column
 	private String name;
-	
-	
+
 	@Column
 	@CreatedDate
 	private Date created;
 
 	@JsonIgnore
-	@OneToMany( cascade = CascadeType.ALL,mappedBy="metric")		
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "metric")
 	private List<MetricValues> values;
 
 	public Metrics(Long id, String name, Date created, List<MetricValues> values) {
-		
+
 		this.id = id;
 		this.name = name;
 		this.created = created;
 		this.values = values;
 	}
 
-	public Metrics() { 
-		
+	public Metrics() {
+
 	}
 
 	public Long getId() {
@@ -83,6 +80,6 @@ public class Metrics {
 
 	public void setValues(List<MetricValues> values) {
 		this.values = values;
-	}	
+	}
 
 }

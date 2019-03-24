@@ -18,31 +18,28 @@ import com.metricsApi.service.MetricService;
 @RestController
 @RequestMapping(value = "/api/v1")
 public class MetricsController {
-	
+
 	@Autowired
 	private MetricService service;
-	
-	@GetMapping(value="/metrics")
+
+	@GetMapping(value = "/metrics")
 	public List<Metrics> getAllMetrics() {
 		return service.findAll();
 	}
-	
-	@PostMapping(value="/metrics/add")
+
+	@PostMapping(value = "/metrics/add")
 	public void insertMetric(@RequestBody Metrics metric) {
 		service.insertMetric(metric);
-		
+
 	}
-	
+
 	@DeleteMapping(value = "/delete/{metricName}")
 	public String deleteMetricName(@RequestParam String metricName) {
-		
-		service.delete(metricName);	
-		
+
+		service.delete(metricName);
+
 		return "Metric was Deleted";
-		
+
 	}
-	
-	
-	
 
 }

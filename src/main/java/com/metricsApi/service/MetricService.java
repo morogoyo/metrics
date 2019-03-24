@@ -22,31 +22,28 @@ public class MetricService {
 
 	public void insertMetric(Metrics metric) {
 		repo.save(metric);
-		
+
 	}
 
 	public Metrics findByName(String name) {
-		
+
 		Metrics metrics = null;
-		
+
 		try {
 			metrics = repo.findByName(name);
-			
-			
+
 		} catch (Exception e) {
 			System.out.println("Metric Name does not exist");
 		}
-		
+
 		return metrics;
-		
-		
-		
+
 	}
 
 	public void delete(String metricName) {
-		
+
 		try {
-			Metrics metric  = findByName(metricName);
+			Metrics metric = findByName(metricName);
 //		toss up whether to delete by id or entity
 			Long id = metric.getId();
 			repo.deleteById(id);
@@ -54,10 +51,7 @@ public class MetricService {
 			System.out.println("Metric Name does not exist  ");
 			e.printStackTrace();
 		}
-		
-		
+
 	}
-	
-	
 
 }
