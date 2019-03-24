@@ -27,15 +27,19 @@ public class MetricService {
 
 	public Metrics findByName(String name) {
 		
+		Metrics metrics = null;
+		
 		try {
-			Metrics metrics = repo.findByName(name);
+			metrics = repo.findByName(name);
+			
 			
 		} catch (Exception e) {
 			System.out.println("Metric Name does not exist");
 		}
 		
-		
 		return metrics;
+		
+		
 		
 	}
 
