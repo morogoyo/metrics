@@ -51,14 +51,14 @@ public class MetricValueServiceTest {
 
 //		Long id, String name, Date createdDate, Double value, Metrics metric
 
-		MetricValues speed = new MetricValues(1l, "speed", new Date(), 55.56, new Metrics());
+		MetricValues speed  = new MetricValues(1l, "speed", new Date(), 55.56, new Metrics());
 		MetricValues speed1 = new MetricValues(2l, "speed", new Date(), 81.46, new Metrics());
 		MetricValues speed2 = new MetricValues(3l, "speed", new Date(), 56.89, new Metrics());
 		MetricValues speed3 = new MetricValues(4l, "speed", new Date(), 25.35, new Metrics());
 		MetricValues speed4 = new MetricValues(5l, "speed", new Date(), 10.75, new Metrics());
 		MetricValues speed5 = new MetricValues(5l, "speed", new Date(), 17.33, new Metrics());
 
-		MetricValues height = new MetricValues(1l, "height", new Date(), 55.56, new Metrics());
+		MetricValues height  = new MetricValues(1l, "height", new Date(), 55.56, new Metrics());
 		MetricValues height1 = new MetricValues(2l, "height", new Date(), 81.46, new Metrics());
 		MetricValues height2 = new MetricValues(3l, "height", new Date(), 56.89, new Metrics());
 		MetricValues height3 = new MetricValues(4l, "height", new Date(), 25.35, new Metrics());
@@ -83,9 +83,9 @@ public class MetricValueServiceTest {
 		metricsValuesEven.add(height3);
 		metricsValuesEven.add(height4);
 
-		Metrics speedObj = new Metrics(1l, "speed", new Date(), metricsValuesEven);
-		Metrics heightObj = new Metrics(2l, "height", new Date(), metricsValuesEven);
-		Metrics weightObj = new Metrics(3l, "weight", new Date(), metricValuesinitList);
+		Metrics speedObj  = new Metrics(1l , "speed"  ,  new Date(), metricsValuesEven);
+		Metrics heightObj = new Metrics(2l , "height" , new Date(), metricsValuesEven);
+		Metrics weightObj = new Metrics(3l , "weight" , new Date(), metricValuesinitList);
 
 	}
 

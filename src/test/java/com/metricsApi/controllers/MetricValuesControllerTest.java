@@ -35,7 +35,7 @@ public class MetricValuesControllerTest {
 	
 	Metrics metric;
 	
-	List<Metrics> metrics = new ArrayList<>();
+	List<Metrics> metricsList = new ArrayList<>();
 	
 	String URI = "/api/v1/metrics";
 	
@@ -52,22 +52,24 @@ public class MetricValuesControllerTest {
 	
 	@Before
 	public void init() {
+		
+		
 		 metric = new Metrics();
 		 metric.setId(1l);
 		 metric.setName("speed");
 		 metric.setCreated( new Date());
 //		 metric.setValues(new MetricValues());		 
-		 metrics.add(metric);
+		 metricsList.add(metric);
+		 
+		when(service.findAll()).thenReturn(metricsList);
 	}
 
 	@Test
 	public void test() throws Exception {
 		
-		when(service.findAll()).thenReturn(metrics);
-		
 		mockMvc.perform(get("/api/v1/metrics")
 				.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());			
+				.andExpect(status().isOk());		
 				
 		
 	}
